@@ -1,0 +1,18 @@
+{% extends 'main/base.html' %}
+{% block title %}Pick History{% endblock %}
+{% block content %}
+
+<div class="container" style="margin-top: 30px;">
+    {% for w in weeks reversed %}
+    <div class="card-panel hoverable" style="text-align: center;">
+        <br>
+        <h5>Week {{ forloop.revcounter }}</h5>
+        <br>
+        <table style="width: 95%; margin: 0 auto;" class="responsive-table striped">
+            {{w|safe}}
+        </table>
+    </div>
+{% endfor %}
+</div>
+
+{% endblock %}

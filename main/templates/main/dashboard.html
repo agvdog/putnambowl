@@ -1,0 +1,81 @@
+{% extends 'main/base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+
+{% if user.is_superuser %}
+<div style="width: 67%; margin: 0 auto;">
+    <form method="POST" id="dash-form">
+        {% csrf_token %}
+        <br>
+        <div class="center-align">
+            <br>
+            <h4>Pick-form Week {{week}}</h4>
+            {{form.as_p}}
+            <button type="submit" name="add" class="waves-effect waves-light btn-small mc btn-1"
+                style="margin-bottom: 10px;">add</button>
+            <button type="submit" name="scrape" class="waves-effect waves-light btn-small mc btn-1"
+                style="margin-bottom: 10px;">scrape</button>
+            {% if publish %}
+            <button type="submit" name="publish" class="waves-effect waves-light btn-small mc btn-1"
+                style="margin-bottom: 10px;">un-publish</button>
+            {% elif not publish %}
+            <button type="submit" name="publish" class="waves-effect waves-light btn-small mc btn-1"
+                style="margin-bottom: 10px;">publish</button>
+            {% endif %}
+            <button type="submit" name="delete" class="waves-effect waves-light btn-small mc btn-1"
+                style="margin-bottom: 10px;">delete all</button>
+            <button type="submit" name="nextweek" class="waves-effect waves-light btn-small mc btn-1"
+                style="margin-bottom: 10px;">next week</button>
+            <button type="submit" name="clear" class="waves-effect waves-light btn-small mc btn-1"
+                style="margin-bottom: 10px;">clear</button>
+            <br><br>
+            {% for g, b in game_list %}
+            <div class="card-panel hoverable" style="width: 100%;">
+                <table class='browser-default' style="width: 100%;">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <p>{{ forloop.counter }})</p>
+                            </td>
+                            <td>
+                                <p>{{ g }}</p>
+                            </td>
+                            <td>
+                                {% if not publish %}
+                                <button type="submit" name={{ b.0 }}
+                                    class="btn-floating btn-small waves-effect mc btn-1"><i
+                                        class="material-icons">delete</i></button>
+                                {% endif %}
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>winner: </p>
+                            </td>
+                            <td>
+                                {% if g.winner %}
+                                <button type="submit" name={{ b.1 }} class="btn-flat"
+                                    style="text-transform: capitalize;">{{g.team1}}</button>
+                                {% elif not g.winner %}
+                                <button type="submit" name={{ b.1 }} class="btn-flat"
+                                    style="text-transform: capitalize;">{{g.team2}}</button>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            {% endfor %}
+    </form>
+    <br>
+</div>
+{% else %}
+    <div class="container">
+        <br><br>
+        <h5>You do not have access to this page because you account does not have admin.</h5>
+        <br>
+        <a href = '\homepage'>back to home</a>
+    </div>
+{% endif %}
+{% endblock %}

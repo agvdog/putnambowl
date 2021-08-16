@@ -1,0 +1,36 @@
+{% extends 'main/base.html' %}
+{% block title %}Fill Out Picks{% endblock %}
+{% block content %}
+{% if publish %}
+<div class="container">
+    <br><br>
+    <h4 style="text-align: center;">Fill Out Picks Here!</h4>
+    <br><br>
+    <form method="POST">
+        {% csrf_token %}
+        {% for f, g in games %}
+        <div class = "card-panel hoverable" style="padding: 20px; margin-bottom: 20px;">
+            <br>
+            <p style="float: left;">Game {{forloop.counter}})</p>
+            <br>
+            <h6 style="text-align: center;">{{g}}</h6>
+            <p>your pick: </p>
+            <p>{{f}}</p>
+            <br>
+        </div>
+        {% endfor %}
+        <br>
+        <button class="waves-effect waves-light btn mc btn-1" type="submit">SUBMIT PICKS</button>
+        <br>
+        <br>
+    </form>
+</div>
+{% else %}
+    <div class="container">
+        <br><br>
+        <h5>Come back later, the Commissioner has not published any picks yet.</h5>
+        <br>
+        <a href = '\homepage'>back to home</a>
+    </div>
+{% endif %}
+{% endblock %}
